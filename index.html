@@ -4,21 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delivery Estimator</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Optional: Link to a CSS file for styling -->
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
-    <h1>Select a Product:</h1>
-    
-    <div id="product-list"></div>
-    
-    <input type="text" id="pincode" placeholder="Enter Pincode" />
-    
-    <button onclick="estimateDelivery()">Estimate Delivery</button>
-    
-    <p id="delivery-estimate"></p>
+    <div class="container">
+        <h1>Delivery Estimator</h1>
+        
+        <div id="product-list" class="product-list"></div>
+        
+        <div class="input-container">
+            <input type="text" id="pincode" placeholder="Enter Pincode" />
+            <button onclick="estimateDelivery()">Estimate Delivery</button>
+        </div>
+        
+        <p id="delivery-estimate" class="delivery-estimate"></p>
+    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    
     <script>
         let products = [];
         let stocks = [];
@@ -68,8 +70,10 @@
             
             if (stockInfo && stockInfo.stockAvailable === 'true') {
                 document.getElementById('delivery-estimate').innerText = 'Same Day Delivery';
+                document.getElementById('delivery-estimate').style.color = 'green';
             } else {
                 document.getElementById('delivery-estimate').innerText = 'Out of Stock or Invalid Pincode';
+                document.getElementById('delivery-estimate').style.color = 'red';
             }
         }
 
@@ -79,7 +83,6 @@
 
         // Load data when the page loads
         window.onload = loadData;
-        
     </script>
 </body>
 </html>
