@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Estimator</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Optional: Link to a CSS file for styling -->
+</head>
+<body>
+    <h1>Select a Product:</h1>
+    
+    <div id="product-list"></div>
+    
+    <input type="text" id="pincode" placeholder="Enter Pincode" />
+    
+    <button onclick="estimateDelivery()">Estimate Delivery</button>
+    
+    <p id="delivery-estimate"></p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    
+    <script>
+        let products = [];
+        let stocks = [];
+
+        // Load CSV files using PapaParse
+        function loadCSV(url) {
+            return new Promise((resolve) => {
+                Papa.parse(url, {
+                    download: true,
+                    header: true,
+                    complete: (results) => resolve(results.data),
+                });
+            });
+        }
+
+        async function loadData() {
+            products = await loadCSV('assets/products.csv');
+            stocks = await loadCSV('assets/stocks.csv');
+            displayProducts();
+        }
+
+        function displayProducts() {
+            const productListDiv = document.getElementById('product-list');
+            products.forEach(product => {
+                const button = document.createElement('button');
+                button.innerText = `${product.name} - $${product.price}`;
+                button.onclick = () => selectProduct(product.id);
+                productListDiv.appendChild(button);
+            });
+        }
+
+        let selectedProductId;
+
+        function selectProduct(id) {
+            selectedProductId = id;
+            alert(`Product ${id} selected!`);
+        }
+
+        function estimateDelivery() {
+            const pincodeInput = document.getElementById('pincode').value;
+            if (!selectedProductId || !validatePincode(pincodeInput)) {
+                alert('Please select a product and enter a valid pincode.');
+                return;
+            }
+
+            const stockInfo = stocks.find(stock => stock.productId == selectedProductId && stock.pincode == pincodeInput);
+            
+            if (stockInfo && stockInfo.stockAvailable === 'true') {
+                document.getElementById('delivery-estimate').innerText = 'Same Day Delivery';
+            } else {
+                document.getElementById('delivery-estimate').innerText = 'Out of Stock or Invalid Pincode';
+            }
+        }
+
+        function validatePincode(pincode) {
+            return /^[0-9]{6}$/.test(pincode);
+        }
+
+        // Load data when the page loads
+        window.onload = loadData;
+        
+    </script>
+</body>
+</html>
