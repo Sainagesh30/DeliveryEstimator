@@ -127,7 +127,7 @@ npx react-native start
 ### Conclusion
 
 You should now have your React Native application set up and running on both Android and iOS devices! Make sure to check for any specific instructions or configurations in your project's README file if available. Happy coding!
-
+"""
 Citations:
 [1] https://getstream.io/blog/react-native-android-ios-setup/
 [2] https://www.educative.io/answers/how-to-create-a-new-react-native-project
@@ -137,3 +137,4 @@ Citations:
 [6] https://docs.github.com/en/get-started/start-your-journey/uploading-a-project-to-github
 [7] https://www.youtube.com/watch?v=eGaImwD8fPQ
 [8] https://github.blog/developer-skills/github/beginners-guide-to-github-uploading-files-and-folders-to-github/
+"""
